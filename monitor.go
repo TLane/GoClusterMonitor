@@ -2,6 +2,7 @@ package main
 
 import (
         "github.com/nsf/termbox-go"
+        "time"
        )
        
        
@@ -18,6 +19,13 @@ func write(x int, y int, mess string) {
 func clear() {
   termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 }
+func flush() {
+  termbox.Flush()
+}
+func centerMessage(mess string) {
+  x,y := termbox.Size()
+  write( ((x/2)-(len(mess)/2)) , ((y-1)/2), mess)
+}
         
 func main() {
   err := termbox.Init()
@@ -32,6 +40,10 @@ func main() {
 		  switch event := termbox.PollEvent(); event.Type {
 		  case termbox.EventKey:
 		    if event.Key == termbox.KeyCtrlQ {
+		      clear()
+		      centerMessage("Exiting...")
+		      flush()
+		      time.Sleep(2* time.Second)
 				  break loop
 			  } else {
 			    processInput(event.Key)
