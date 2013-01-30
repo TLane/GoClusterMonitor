@@ -5,6 +5,8 @@ package main
 import (
         "github.com/nsf/termbox-go"
         "time"
+        //"io/ioutil"
+        "container/list"
        )
        
 func processInput(key termbox.Key, win int) {
@@ -32,7 +34,21 @@ func write(x int, y int, mess string) {
 func mainMenu() {
 	box("|","-")
   write(1,1, "Cluster Monitor - Main Menu")
+  
+  displayPings()
+  
 }
+
+
+func displayPings() {
+  
+}
+
+func loadNodes() *list.List {
+  nodes := list.New()
+  nodes.PushFront("node1")
+  return nodes
+} 
 
 func clear() {
   termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
@@ -46,6 +62,7 @@ func centerMessage(mess string) {
   x,y := termbox.Size()
   write( ((x/2)-(len(mess)/2)) , ((y-1)/2), mess)
 }
+
 func box(v string, h string) {
   x,y := termbox.Size()
   for i :=0; i < x-1; i++ {
