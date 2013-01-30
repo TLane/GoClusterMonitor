@@ -7,15 +7,31 @@ import (
         "time"
        )
        
-func processInput(key termbox.Key) {
-
+func processInput(key termbox.Key, win int) {
+  clear()
+  displayCurrentWindow(win)
+  flush()
 }
+
+func displayCurrentWindow(win int) {
+  if win == 0 {
+    mainMenu()
+  } else {
+    mainMenu()
+  }
+}
+
 
 func write(x int, y int, mess string) {
   for _, c := range mess {
 		termbox.SetCell(x, y, c, termbox.ColorDefault, termbox.ColorDefault)
 		x++
 	}
+}
+
+func mainMenu() {
+	box("|","-")
+  write(1,1, "Cluster Monitor - Main Menu")
 }
 
 func clear() {
@@ -52,7 +68,8 @@ func main() {
 		panic(err)
 	}
 	defer termbox.Close()
-	write(1,1,"Hello, world")
+  c_window := 0;
+  displayCurrentWindow(c_window);
 	box("|","-")
 	flush()
   loop:
@@ -70,13 +87,11 @@ func main() {
 			    flush()
 			    break loop
 			  } else {
-			    processInput(event.Key)
+			    processInput(event.Key, c_window)
 			  }
-			  termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
-			  termbox.Flush()
 		  case termbox.EventResize:
 			  termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
-			  termbox.Flush()
+			  displayCurrentWindow(c_window)
 		  case termbox.EventError:
 			  panic(event.Err)
 		}
